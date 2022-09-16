@@ -1,43 +1,87 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import { Button, Card, Col, Row } from 'react-bootstrap';
 import { FaBars, FaPhone } from 'react-icons/fa'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import StudentNav from './StuNavbar';
-
-
 
 function StudentHome() {
   let navigate = useNavigate();
-
+  const { id } = useParams();
   const Menu = () => {
 
     navigate('/Student')
   }
-  
-  const IssueBook = () => {
-   navigate("/IssueBook")
-      
+  const [books, setBooks] = useState("");
+  const [isIssuedBook, setIsIssuedBook] = useState(false)
+  const token = JSON.parse(localStorage.getItem('token'));
+  const user_id = JSON.parse(localStorage.getItem('id'));
+  console.log(token, "-----------------")
+
+  const loadBook = async () => {
+    console.log(token)
+    if (token) {
+
+      await axios.get("https://64bc-122-168-72-226.in.ngrok.io/book", {
+        headers: {
+          "Authorization": `${token}`,
+          "ngrok-skip-browser-warning": "*"
+        }
+      }).then((res) => {
+        console.log(res.data)
+        setBooks(res.data)
+        console.log(books, "--------------issue book---------------")
+      }).catch((err) => {
+        console.log(err)
+      })
+    }
+  };
+
+  const IssueBooks = async () => {
+    //  let usersId={ issuedbook:{user_id, book_id,book_name}};
+    //   await axios.post(`https://64bc-122-168-72-226.in.ngrok.io/issuedbooks`,usersId, {
+    //     headers: {
+    //       "Authorization": `${token}`,
+    //       "ngrok-skip-browser-warning": "*"
+
+    //     }
+    //   })
+    //     .then((res) => {
+    //       console.log(res.data);
+    //       setIsIssuedBook(true)
+
+    //       alert("issue book successfully")
+    //       console.log(isIssuedBook)
+    //     })
+    //     .catch((err) => {
+    //       console.log(err)
+    //       console.log(err.message)
+    //      })
+    alert("issued book successfully")
+
+
   }
+  console.log(IssueBooks.length)
+  useEffect(() => {
+    loadBook();
+  }, [])
+
   return (
     <>
       <header className="header-section  ng-scope">
         <div>
-
-          <a style={{ float: "left" }} href="/" className="site-logo"><img src="https://www.elibrarysoftware.com/img/logo.png" alt="Library Management System - Logo" style={{ marginTop: "7px" }} /></a>
-
+          <a style={{ float: "left" }} href="/" className="site-logo"><img src=".../../images/librarylogo.jpg" alt="Library Management System - Logo" style={{ marginTop: "7px", height: "50px", width: "300px" }} /></a>
           <div className="header-info">
             <div className="hf-item ">
               <a style={{ marginLeft: "40%" }} href="/" className="site-logo">
                 <img src="https://us.123rf.com/450wm/putracetol/putracetol1805/putracetol180500840/101178983-pixel-book-logo-icon-design.jpg?ver=6" style={{ width: "80px" }} alt="GEM Logo" /></a>
               <FaPhone className='ms-2' />
               <span className='ms-1' >Call us Now:</span>+91-9350679141
-
             </div>
-
-
           </div>
         </div>
       </header>
-      <StudentNav/>
+      <StudentNav />
 
       <FaBars style={{ float: "left" }} onClick={Menu}></FaBars>
       <div className="col py-3">
@@ -47,28 +91,60 @@ function StudentHome() {
           <h6 style={{ color: "darkblue" }}>― John Green, The Fault in Our Stars</h6>
 
         </p>
-        <div className='row '>
-          <div class="card ms-2" style={{ width: " 18rem" }}>
-
-            <img src="https://www.dailyexcelsior.com/wp-content/uploads/2014/08/PGCC.jpg" style={{ height: "200px" }} class="card-img-top" alt="..." />
-            <div class="card-body">
-              <h5 class="card-title"> C book</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <button onClick={IssueBook} class="btn btn-success  rounded-pill">Issue</button>
-            </div>
-          </div>
-          <div class="card ms-2" style={{ width: " 18rem" }}>
-            <img src="https://kbazar.s3.amazonaws.com/__sized__/products/programmingwithjava-thumbnail-540x540-70.jpeg" style={{ height: "200px" }} class="card-img-top" alt="..." />
-            <div class="card-body">
-              <h5 class="card-title">Java Book</h5>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-              <button onClick={IssueBook} class="btn btn-success  rounded-pill">Issue</button>
-            </div>
-          </div>
-
-
-        </div>
       </div>
+      <div>
+        <Row style={{ width: "94%" }} >
+          <Col >
+            <Card className='ms-2' style={{ width: '15rem' }}>
+              <Card.Img src=".../../images/book.jpg" />
+              <Card.Body>
+                <Card.Title>To Kill a Mockingbird</Card.Title>
+                <Card.Text>Harper Lee, 1990</Card.Text>
+                <Card.Text><u>book quantity-</u>5</Card.Text>
+
+                <Button className='btn btn-primary' onClick={() => IssueBooks()} to={`/`} variant="primary">Issue</Button>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col >
+            <Card className='ms-2' style={{ width: '15rem' }}>
+              <Card.Img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7zcbU1v5YUf6xfyUWQy6KqcsF2XQGgI8Uo3uB1gF8Rwaxo7Hs28G9xaWMj3GcKk-30fQ&usqp=CAU" />
+              <Card.Body>
+                <Card.Title>To Kill a Mockingbird</Card.Title>
+                <Card.Text>Harper Lee, 1990</Card.Text>
+                <Card.Text><u>book quantity-</u>5</Card.Text>
+                <Button className='btn btn-primary' onClick={() => IssueBooks()} to={`/`} variant="primary">Issue</Button>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col >
+            <Card className='ms-2' style={{ width: '15rem' }}>
+              <Card.Img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmR8JDivKoAdfO9oHSO13liZjuR9XTVZVQpg&usqp=CAU" />
+              <Card.Body>
+                <Card.Title>To Kill a Mockingbird</Card.Title>
+                <Card.Text>Harper Lee, 1990</Card.Text>
+                <Card.Text><u>book quantity-</u>5</Card.Text>
+                <Button className='btn btn-primary' onClick={() => IssueBooks()} to={`/`} variant="primary">Issue</Button>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col >
+            <Card className='ms-2' style={{ width: '15rem' }}>
+              <Card.Img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqLkCNoXjBUUs1dkhPNRagwwJ6o4MBUKNAug&usqp=CAU" />
+              <Card.Body>
+                <Card.Title>To Kill a Mockingbird</Card.Title>
+                <Card.Text>Harper Lee, 1990</Card.Text>
+                <Card.Text><u>book quantity-</u>5</Card.Text>
+                <Button className='btn btn-primary' onClick={() => IssueBooks()} to={`/`} variant="primary">Issue</Button>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+
+        <br /> <br />
+      </div>
+
+
     </>
   )
 }

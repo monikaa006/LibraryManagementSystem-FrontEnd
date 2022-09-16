@@ -3,13 +3,16 @@ import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import { NavLink, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { toast, ToastContainer } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
+
 
 
 
 const Login = () => {
-
+   
     const navigate = useNavigate();
-
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
@@ -18,34 +21,48 @@ const Login = () => {
             
              let item={user:{email,password}};
              if(!email){
-                alert("enter email")
+                toast.warning("enter email")
              }
              else if(!password){
-                alert("enter password")
+                toast.warning("enter password")
              }
              else{
-          const fetchData = async()=>{
-                 await axios.post("https://3c1c-122-168-72-226.in.ngrok.io/users/sign_in", item)
+               
+               
+                localStorage.setItem("login","true")
+                if(email==="admin@gmail.com"&&password==="admin@123")
+                {
+                    alert("admin login succesufully")
+                    navigate("/Dashboard")
+                }
+              else{
+                alert("user login succesufully")
+                navigate("/StudentHome")
+               }
+               /*axios.post("http://localhost:3000/api/user/signin", item)
                 .then((res)=>{
-                    if(res.role==="admin"){
-                        navigate("/Dashbroad")
+                   
+                    localStorage.setItem("token",JSON.stringify(res.data.token))
+                    localStorage.setItem("role",JSON.stringify(res.data.user.role))
+                    if(res.data.user.role==="admin"){
+                        alert("admin login successfuly");
+                        navigate("/Dashboard")
                     }
-                    
-                    console.log(res.data)
-                    console.log(res.data.token)
+                    else{
+                       alert("user login succesfully")
+                        navigate('/StudentHome')
+                    }
+                     
                     localStorage.setItem("token",JSON.stringify(res.data.token))
 
-                    alert("login successfuly");
-                    navigate('/StudentHome')
+                    
                    
                 }).catch((err)=>{
                     console.log(err)
                 })                 
-             
             }
-            fetchData()
-            
-        }
+        */
+             }
            
         }
      
@@ -72,7 +89,9 @@ const Login = () => {
                             </Form.Group>
                             <Form.Group className="mb-3 col-lg-6" controlId="formBasicButton">
                             <Button variant="primary" className='col-lg-6' onClick={addData} style={{ background: "rgb(67, 185, 127)" }} type="submit">
-                                Submit
+                            <ToastContainer/>  
+                            Submit
+                           
                             </Button>
                           
                             <p  className='mt-3'>Don't  Have an Account <span><NavLink  to='/SignUpForm'>SignUp</NavLink></span> </p>

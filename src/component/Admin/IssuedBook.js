@@ -1,21 +1,63 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
 
 function IssuedBook() {
-  return (
-    <div>
-      <div class="col-xl-3 col-sm-6 py-2">
-                                    <div class="card text-white bg-warning h-100">
-                                        <div class="card-body">
-                                            <div class="rotate">
-                                                <i class="fa fa-share fa-4x"></i>
-                                            </div>
-                                            <h6 class="text-uppercase">Issued Book</h6>
-                                            <h1 class="display-4">36</h1>
-                                        </div>
-                                    </div>
-                                </div>
-    </div>
-  )
+    const [issuedBook, setIssuedBook] = useState("")
+    const token = JSON.parse(localStorage.getItem('token'));
+    const IssueBooks = async () => {
+
+        await axios.get(`https://64bc-122-168-72-226.in.ngrok.io/issuedbooks`, {
+            headers: {
+                "Authorization": `${token}`,
+                "ngrok-skip-browser-warning": "*"
+            }
+        })
+            .then((res) => {
+                console.log(issuedBook)
+                setIssuedBook(res.data.issuedbooks)
+            })
+            .catch((err) => {
+                console.log(err)
+                console.log(err.message)
+            });
+    }
+    useEffect(() => {
+        IssueBooks();
+    }, [])
+    return (
+        <div>
+            <div>
+                <h1>Issued Books </h1>
+                <div className='table-responsive-lg container '>
+                    <table className="table border shadow  table-bordered  border-primary">
+                        <thead className="table-light table-bordered  border-primary ">
+                            <tr >
+                                <th scope='col' >S.No</th>
+                                <th scope='col' >Name
+                                </th>
+                                <th scope='col'  >Book ID
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr >
+                                <td>1</td>
+                                <td >java</td>
+                                <td > 4</td>
+                            </tr>
+                            <tr >
+                                <td>2</td>
+                                <td >taps A tells</td>
+                                <td > 5</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br></br>
+                    <br></br>
+                </div>
+            </div>
+        </div>
+    )
 }
 
 export default IssuedBook
