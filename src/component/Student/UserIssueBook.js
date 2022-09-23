@@ -1,32 +1,12 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
-
-
+import { issueBook, Returnbook } from '../Services/StudentServices';
 
 function UserIssueBook() {
     const [issuedBook, setIssuedBook] = useState("")
-    const token = JSON.parse(localStorage.getItem('token'));
-    const navigate = useNavigate();
     const IssueBooks = async () => {
-
-        await axios.get(`https://64bc-122-168-72-226.in.ngrok.io/issuedbooks`, {
-            headers: {
-                "Authorization": `${token}`,
-                "ngrok-skip-browser-warning": "*"
-            }
-        })
-            .then((res) => {
-
-                setIssuedBook(res.data.issuedbooks)
-                console.log(issuedBook)
-            })
-            .catch((err) => {
-                console.log(err)
-                console.log(err.message)
-            });
-
-
+     setIssuedBook(issuedBook())
+     console.log(issuedBook)
+        
     }
     useEffect(() => {
         IssueBooks();
@@ -34,28 +14,9 @@ function UserIssueBook() {
 
     const ReturnBook = async () => {
         alert(" book return  successfully")
-        // let user_id={user:{id}}
-        // localStorage.setItem("IssueId",id)
-
-        // await axios.post(`https://64bc-122-168-72-226.in.ngrok.io/issuedbooks/return/${id}`,user_id, {
-        //    headers: { "Authorization":`${token}` ,
-        //    "ngrok-skip-browser-warning": "*"
-        //       }
-        //  } ).then((res)=>{
-        //     console.log(res.data.fine)
-        //     localStorage.setItem("Fine",res.data.fine)
-        //     if(res.data.fine){  
-
-
-        //         alert(res.data.message  + " your fine is " + res.data.fine )
-
-        //        navigate("/PayFine")
-
-        //     }
-        //         IssueBooks();
-
-        //  })
-
+        //  let user_id={user:{id}}
+        //  localStorage.setItem("IssueId",id)
+        //      Returnbook(user_id)
     }
 
 

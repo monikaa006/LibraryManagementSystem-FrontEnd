@@ -1,25 +1,24 @@
 import React from 'react'
+import { Col, Row } from 'react-bootstrap'
 import { FaBookReader, FaPhone } from 'react-icons/fa'
 import { Footer } from './Footer'
-import Navbar from './Navbar'
+import NavbarM from './NavbarM'
 
 function About() {
     return (
         <>
-            <header className="header-section  ng-scope">
-                <div>
-                    <a style={{ float: "left" }} href="/" className="site-logo"><img src=".../../images/librarylogo.jpg" alt="Library Management System - Logo" style={{ marginTop: "7px", height: "50px", width: "400px" }} /></a>
-                    <div className="header-info">
-                        <div className="hf-item ">
-                            <a style={{ marginLeft: "35%" }} href="/" className="site-logo">
-                                <img src="https://us.123rf.com/450wm/putracetol/putracetol1805/putracetol180500840/101178983-pixel-book-logo-icon-design.jpg?ver=6" style={{ width: "80px" }} alt="GEM Logo" /></a>
-                            <FaPhone className='ms-2' />
+             <div>                 
+                    <Row>                  
+                         <Col> 
+                          <img src="../../images/librarylogo.jpg" alt="Library Management System - Logo" style={{ float: "left", marginTop: "7px",height:"50px",width:"400px" }} />
+                              </Col>
+                              <Col style={{marginTop:"20px" }}>
+                                <FaPhone />
                             <span className='ms-1' >Call us Now:</span>+91-9350679141
-                        </div>
-                    </div>
-                </div>
-            </header>
-            <Navbar />
+                             </Col>                 
+                    </Row>
+                </div>       
+            <NavbarM/>
             <div className='container'>
                 <br />
                 <h2 style={{ textAlign: "center", color: "darkred" }}>  <FaBookReader /><u>About Us</u></h2>

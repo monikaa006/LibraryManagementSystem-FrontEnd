@@ -1,15 +1,16 @@
-import axios from 'axios';
+
 import React, { useEffect, useState } from 'react'
 import { Button, Card, Col, Row } from 'react-bootstrap';
 import { FaBars, FaPhone } from 'react-icons/fa'
 import { useNavigate, useParams } from 'react-router-dom';
-import StudentNav from './StuNavbar';
+import NavbarM from '../Services/NavbarM';
+import { Book, issueBook } from '../Services/StudentServices';
+
 
 function StudentHome() {
   let navigate = useNavigate();
   const { id } = useParams();
   const Menu = () => {
-
     navigate('/Student')
   }
   const [books, setBooks] = useState("");
@@ -21,45 +22,15 @@ function StudentHome() {
   const loadBook = async () => {
     console.log(token)
     if (token) {
-
-      await axios.get("https://64bc-122-168-72-226.in.ngrok.io/book", {
-        headers: {
-          "Authorization": `${token}`,
-          "ngrok-skip-browser-warning": "*"
-        }
-      }).then((res) => {
-        console.log(res.data)
-        setBooks(res.data)
-        console.log(books, "--------------issue book---------------")
-      }).catch((err) => {
-        console.log(err)
-      })
+      const book= Book()
+      setBooks(book)
     }
   };
-
-  const IssueBooks = async () => {
-    //  let usersId={ issuedbook:{user_id, book_id,book_name}};
-    //   await axios.post(`https://64bc-122-168-72-226.in.ngrok.io/issuedbooks`,usersId, {
-    //     headers: {
-    //       "Authorization": `${token}`,
-    //       "ngrok-skip-browser-warning": "*"
-
-    //     }
-    //   })
-    //     .then((res) => {
-    //       console.log(res.data);
-    //       setIsIssuedBook(true)
-
-    //       alert("issue book successfully")
-    //       console.log(isIssuedBook)
-    //     })
-    //     .catch((err) => {
-    //       console.log(err)
-    //       console.log(err.message)
-    //      })
+  const IssueBooks = async (book_id, book_name) => {
+    let usersId = { issuedbook: { user_id, book_id, book_name } };
+    issueBook(usersId)
+ 
     alert("issued book successfully")
-
-
   }
   console.log(IssueBooks.length)
   useEffect(() => {
@@ -68,20 +39,18 @@ function StudentHome() {
 
   return (
     <>
-      <header className="header-section  ng-scope">
-        <div>
-          <a style={{ float: "left" }} href="/" className="site-logo"><img src=".../../images/librarylogo.jpg" alt="Library Management System - Logo" style={{ marginTop: "7px", height: "50px", width: "300px" }} /></a>
-          <div className="header-info">
-            <div className="hf-item ">
-              <a style={{ marginLeft: "40%" }} href="/" className="site-logo">
-                <img src="https://us.123rf.com/450wm/putracetol/putracetol1805/putracetol180500840/101178983-pixel-book-logo-icon-design.jpg?ver=6" style={{ width: "80px" }} alt="GEM Logo" /></a>
-              <FaPhone className='ms-2' />
-              <span className='ms-1' >Call us Now:</span>+91-9350679141
-            </div>
-          </div>
-        </div>
-      </header>
-      <StudentNav />
+        <div>                 
+                    <Row>                  
+                         <Col> 
+                          <img src="../../images/librarylogo.jpg" alt="Library Management System - Logo" style={{ float: "left", marginTop: "7px",height:"50px",width:"400px" }} />
+                              </Col>
+                              <Col style={{marginTop:"20px" }}>
+                                <FaPhone />
+                            <span className='ms-1' >Call us Now:</span>+91-9350679141
+                             </Col>                 
+                    </Row>
+                </div>       
+      <NavbarM/>
 
       <FaBars style={{ float: "left" }} onClick={Menu}></FaBars>
       <div className="col py-3">
@@ -140,11 +109,8 @@ function StudentHome() {
             </Card>
           </Col>
         </Row>
-
         <br /> <br />
       </div>
-
-
     </>
   )
 }

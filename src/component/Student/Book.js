@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import axios from "axios"
-import { FaBookOpen, FaSearch } from "react-icons/fa";
+import { FaBookOpen, FaMicrophone, FaSearch, FaSpeakap, FaSpeakerDeck } from "react-icons/fa";
+import LoadSpinner from './LoadSpinner';
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+import VoiceSearch from './VoiceSearch';
+
 
 
 export default function Book() {
   const [books, setBooks] = useState([]);
   const [search, setSearch] = useState([]);
+  
 
   const token = JSON.parse(localStorage.getItem('token'));
-  const loaduser = async () => {
+  const loaduser = async () => { 
+    
     await axios.get("https://jsonplaceholder.typicode.com/users").then((res) => {
       setBooks(res.data)
     })
-
 
   };
 
@@ -22,19 +27,13 @@ export default function Book() {
 
   const searchusers = async (e) => {
     e.preventDefault();
-    return await axios.get(`https://jsonplaceholder.typicode.com/users?q=${search}`, {
-      headers: {
-        "Authorization": `${token}`,
-        "ngrok-skip-browser-warning": "*"
-      }
-    })
+    return await axios.get(`https://jsonplaceholder.typicode.com/users?q=${search}`)
       .then(response => {
         setBooks(response.data);
         setSearch("");
       })
       .catch((err) => console.log("error", err));
   }
-
   function onReset() {
     loaduser();
   }
@@ -48,22 +47,23 @@ export default function Book() {
   return (
     <div>
       <div className='container'>
-        <br />
-        <br />
+        <br/>
+        <br/>
         <h1 className='container ms-2' style={{ textAlign: "center", color: "black" }} > <FaBookOpen />  <u>Books Information</u></h1>
-        <br />
+        <br/>
         <div style={{ display: "inline", }} className="comtainer ">
-          <div style={{ display: "inline", marginLeft: "60%" }}>
-            <input onKeyDown={handleKeyDown} type="text" id='form1' value={search} onChange={(e) => setSearch(e.target.value)} placeholder="search book  by name" ></input>
-            <button className='btn btn-secondary'>  <FaSearch onClick={(e) => searchusers(e)} className='bi bi-search' /></button>
+          <div style={{ display: "inline", marginLeft: "60%" }}>       
+            <input  onKeyDown={handleKeyDown} type="text" id='form1' value={search} onChange={(e) => setSearch(e.target.value)} placeholder="search book  by name" ></input>
+            <button className='btn btn-secondary'><FaSearch onClick={(e) => searchusers(e)} className='bi bi-search' /></button>
+           
             <button type="button" onClick={() => onReset()} className="btn btn-danger btn-sm ms-2">Reset</button>
           </div>
         </div>
-        <br /><br />
+        <br/><br/>
         <div className='table-responsive-lg '>
           <table className="table border shadow  table-bordered  border-primary">
             <thead className="table-light table-bordered  border-primary ">
-              <tr >
+              <tr>
                 <th scope='col' >S.No</th>
                 <th scope='col' >Name
                 </th>
@@ -75,13 +75,11 @@ export default function Book() {
                 </th>
               </tr>
             </thead>
-            <tbody>
+            <tbody>            
               {
                 books && books.length > 0 ?
-                  books.slice(0, 5).map((book, index) => (
-
+                  books.slice(0, 5).map((book, index) =>(
                     <tr key={book.id}>
-
                       <td>{index + 1}</td>
                       <td > {book.name}</td>
                       <td > {book.username}</td>
@@ -89,7 +87,7 @@ export default function Book() {
                       <td >{book.id}</td>
                     </tr>
                   ))
-                  : " Data Not Found"
+                  :<LoadSpinner/>
               }
             </tbody>
           </table>

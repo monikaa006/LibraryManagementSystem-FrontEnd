@@ -6,6 +6,7 @@ import axios from 'axios'
 import { toast, ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
+import { LoginA } from './StudentServices'
 
 
 
@@ -27,8 +28,9 @@ const Login = () => {
                 toast.warning("enter password")
              }
              else{
-               
-               
+            
+              LoginA(item)
+              
                 localStorage.setItem("login","true")
                 if(email==="admin@gmail.com"&&password==="admin@123")
                 {
@@ -39,29 +41,6 @@ const Login = () => {
                 alert("user login succesufully")
                 navigate("/StudentHome")
                }
-               /*axios.post("http://localhost:3000/api/user/signin", item)
-                .then((res)=>{
-                   
-                    localStorage.setItem("token",JSON.stringify(res.data.token))
-                    localStorage.setItem("role",JSON.stringify(res.data.user.role))
-                    if(res.data.user.role==="admin"){
-                        alert("admin login successfuly");
-                        navigate("/Dashboard")
-                    }
-                    else{
-                       alert("user login succesfully")
-                        navigate('/StudentHome')
-                    }
-                     
-                    localStorage.setItem("token",JSON.stringify(res.data.token))
-
-                    
-                   
-                }).catch((err)=>{
-                    console.log(err)
-                })                 
-            }
-        */
              }
            
         }
