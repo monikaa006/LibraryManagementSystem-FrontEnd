@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from "axios"
 import { FaBookOpen, FaMicrophone, FaSearch, FaSpeakap, FaSpeakerDeck } from "react-icons/fa";
 import LoadSpinner from './LoadSpinner';
-import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
-import VoiceSearch from './VoiceSearch';
+
 
 
 
