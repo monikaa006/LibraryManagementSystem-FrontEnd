@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from "axios"
-import { FaBookOpen, FaMicrophone, FaSearch, FaSpeakap, FaSpeakerDeck } from "react-icons/fa";
+import { FaBookOpen, FaSearch} from "react-icons/fa";
 import LoadSpinner from './LoadSpinner';
-
-
-
 
 export default function Book() {
   const [books, setBooks] = useState([]);

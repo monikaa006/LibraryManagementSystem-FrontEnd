@@ -20,11 +20,9 @@ function NavbarM() {
     const logOut = () => {
 
         if (removeUser) {
-            localStorage.removeItem("login");
-           
+            localStorage.removeItem("login");           
             alert("logging Out Successfully");
             navigate("/")
-
         } else {
             alert("sign Up First")
         }

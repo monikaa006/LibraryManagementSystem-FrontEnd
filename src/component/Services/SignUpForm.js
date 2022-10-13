@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast, ToastContainer } from 'react-toastify'
+import { SignUP } from './StudentServices'
 
 export default function SignUpForm() {
     const navigate = useNavigate()
@@ -36,26 +37,7 @@ export default function SignUpForm() {
             toast.warning("password does not match")
         }
         else {
-            alert(" signUp succesuffly")
-            localStorage.setItem("login", "true")
-
-            navigate("/StudentHome")
-            // const fetchData = async()=>{
-
-            //        await axios.post("http://localhost:3000/api/user/signup", item)
-            //       .then((res)=>{
-            //           alert("signup successfully")
-            //           console.log(res.data)
-            //           console.log(res.data.token)
-            //           localStorage.setItem("token",JSON.stringify(res.data.token))
-            //          navigate("/StudentHome")
-
-
-            //       }).catch((err)=>{
-            //           console.log(err)
-            //       })                  
-            //   }
-            //   fetchData();
+            SignUP(item)
         }
     }
     return (

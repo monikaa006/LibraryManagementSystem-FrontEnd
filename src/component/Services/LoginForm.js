@@ -2,9 +2,7 @@ import React, { useState } from 'react'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import { NavLink, useNavigate } from 'react-router-dom'
-import axios from 'axios'
 import { toast, ToastContainer } from "react-toastify";
-
 import "react-toastify/dist/ReactToastify.css";
 import { LoginA } from './StudentServices'
 
@@ -30,17 +28,6 @@ const Login = () => {
              else{
             
               LoginA(item)
-              
-                localStorage.setItem("login","true")
-                if(email==="admin@gmail.com"&&password==="admin@123")
-                {
-                    alert("admin login succesufully")
-                    navigate("/Dashboard")
-                }
-              else{
-                alert("user login succesufully")
-                navigate("/StudentHome")
-               }
              }
            
         }
